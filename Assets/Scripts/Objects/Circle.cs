@@ -6,7 +6,7 @@ public class Circle : MonoBehaviour
     public bool Activation = false;
     public float Count = 0;
     public float maxCount = 100; // Threshold to activate
-    public float decreaseRate = 20f; // Rate at which Count decreases
+    public float decreaseRate = 10f; // Rate at which Count decreases
     public Slider energyBar; // UI Slider for tracking Count
     public Vector3 newSize = new Vector3(1, 1, 1);
 
@@ -21,7 +21,7 @@ public class Circle : MonoBehaviour
         if (!Activation)
         {
             // Decrease Count over time, ensuring it doesn't drop below 0
-            Count = Mathf.Max(0, Count - decreaseRate * Time.deltaTime);
+            Count = Mathf.Max(0, Count - decreaseRate * Time.deltaTime * 2);
             energyBar.value = Count;
             // Check if Count reaches or exceeds maxCount and activate the Circle
              if (Count >= 99)

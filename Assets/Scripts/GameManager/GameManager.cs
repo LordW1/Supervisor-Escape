@@ -5,7 +5,7 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public TextMeshProUGUI inactivatedCirclesText; // TextMeshPro component
-    private int totalCircles = 2;
+    public int totalCircles = 2;
     private int activatedCircles = 0;
 
     private void Start()

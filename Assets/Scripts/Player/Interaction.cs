@@ -12,6 +12,14 @@ public class Interaction : MonoBehaviour
         }
     }
 
+        private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Circle"))
+        {
+            currentCircle = other.GetComponent<Circle>();
+        }
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Circle"))
