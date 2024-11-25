@@ -23,7 +23,7 @@ public class Movement : MonoBehaviour
     void Update()
     {
         MovePlayer();
-        RotatePlayerToMouse();
+        //RotatePlayerToMouse();
     }
 
     void MovePlayer()
@@ -47,19 +47,17 @@ public class Movement : MonoBehaviour
     void RotatePlayerToMouse()
     {
         // Get the mouse position in world space
-        Vector3 mousePos = Input.mousePosition;
-        mousePos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, Camera.main.transform.position.z));
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0f; // Ensure we're working in the 2D plane (z-axis remains 0)
 
-        // Get the direction from the player to the mouse
-        Vector3 direction = (mousePos - transform.position).normalized;
+        // Calculate the direction from the player to the mouse position
+        Vector3 direction = (mousePosition - transform.position).normalized;
 
-        // Only rotate around the Z-axis
-        float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;  // Calculate angle for rotation
+        // Calculate the angle between the player's current rotation and the target direction
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        // Create a target rotation for the player to face the mouse
-        Quaternion targetRotation = Quaternion.Euler(0f, 0f, targetAngle); // Only rotate on the Z-axis
-
-        // Smoothly rotate the player towards the target rotation
+        // Rotate the player smoothly towards the target direction
+        Quaternion targetRotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 }
