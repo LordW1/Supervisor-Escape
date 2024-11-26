@@ -8,12 +8,17 @@ public class Movement : MonoBehaviour
 
     [Header("MOVEMENT VALUES")]
     [Space]
+
     public float moveSpeed = 5f;
     public float rotationSpeed = 700f;
-
+    public float moveX;
+    public float moveY;
 
     private Rigidbody rb;
     private Camera mainCamera;
+
+    // Store the target rotation angle
+    private float targetAngle = 0f; // Default target angle is 0 (facing up)
 
     void Start()
     {
@@ -26,17 +31,18 @@ public class Movement : MonoBehaviour
     void Update()
     {
         MovePlayer();
-        RotatePlayerToMouse();
+        //RotatePlayerToMouse();
+        RotatePlayerToMovementDirection();
     }
 
     void MovePlayer()
     {
         // Get player input for movement along the X and Y axes
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        moveX = Input.GetAxis("Horizontal");
+        moveY = Input.GetAxis("Vertical");
 
         // Calculate movement direction
-        Vector3 movement = new Vector3(horizontalInput, verticalInput, 0f).normalized;
+        Vector3 movement = new Vector3(moveX, moveY, 0f).normalized;
 
         // Apply movement to the Rigidbody
         if (movement.magnitude >= 0.1f)
@@ -49,24 +55,52 @@ public class Movement : MonoBehaviour
 
     void RotatePlayerToMouse()
     {
-        // Get the mouse position in world space
-        Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        mousePosition.z = 0f; // Ensure we're working in the 2D plane (z-axis should be 0)
+        // Get the mouse position in screen space (in pixels)
+        Vector3 mousePosition = Input.mousePosition;
+
+        // Convert mouse position to world position, but keeping z at 0
+        mousePosition.z = mainCamera.nearClipPlane; // This ensures a valid z value to convert to world space
+
+        // Convert mouse position from screen space to world space
+        Vector3 worldMousePosition = mainCamera.ScreenToWorldPoint(mousePosition);
 
         // Calculate the direction vector from the player to the mouse position
-        Vector3 direction = (mousePosition - transform.position).normalized;
+        Vector3 direction = (worldMousePosition - transform.position).normalized;
 
         // Calculate the angle in degrees between the player and the mouse position
-        float angle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
+        // Swap direction.x and direction.y to fix the angle calculation
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         // Debugging logs to check mouse position and angle
-        Debug.Log("Mouse Position: " + mousePosition);
+        Debug.Log("Mouse Position (Screen): " + mousePosition);
+        Debug.Log("Mouse Position (World): " + worldMousePosition);
         Debug.Log("Calculated Angle: " + angle);
 
         // Create a target rotation using Quaternion.Euler
         Quaternion targetRotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
 
         // Smoothly rotate towards the target angle
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+    }
+
+
+
+    void RotatePlayerToMovementDirection()
+    {
+        // Check if the player is moving
+        if (moveX != 0 || moveY != 0)
+        {
+            // Calculate the direction vector from the player's current position
+            Vector3 direction = new Vector3(moveX, moveY, 0f).normalized;
+
+            // Calculate the angle in degrees between the player and the direction of movement
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            // Create a target rotation using Quaternion.Euler
+            Quaternion targetRotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
+
+            // Smoothly rotate the player towards the target angle
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
     }
 }
