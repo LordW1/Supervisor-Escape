@@ -313,8 +313,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ae6820acd17cee4b96cd21f0c71c4e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  currentSpeed: 0
+  moveSpeed: 1000
+  sprintSpeed: 2000
   rotationSpeed: 700
+  moveX: 0
+  moveY: 0
+  isSprinting: 0
 --- !u!114 &27145744
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,12 +7,18 @@ public class Movement : MonoBehaviour
     private AudioManager audioSearch;
 
     [Header("MOVEMENT VALUES")]
+
     [Space]
 
-    public float moveSpeed = 5f;
+    public float currentSpeed;
+    [Range(0, 1000)]
+    public float moveSpeed = 1000f;
+    [Range(0, 2000)]
+    public float sprintSpeed = 2000f;
     public float rotationSpeed = 700f;
     public float moveX;
     public float moveY;
+    public bool isSprinting;
 
     private Rigidbody rb;
     private Camera mainCamera;
@@ -28,6 +34,7 @@ public class Movement : MonoBehaviour
         mainCamera = Camera.main;
     }
 
+    [System.Obsolete]
     void Update()
     {
         MovePlayer();
@@ -35,11 +42,25 @@ public class Movement : MonoBehaviour
         RotatePlayerToMovementDirection();
     }
 
+    [System.Obsolete]
     void MovePlayer()
     {
         // Get player input for movement along the X and Y axes
         moveX = Input.GetAxis("Horizontal");
         moveY = Input.GetAxis("Vertical");
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetButton("R2"))
+        {
+            currentSpeed = sprintSpeed;
+            isSprinting = true;
+        }
+        else
+        {
+            currentSpeed = moveSpeed;
+            isSprinting = false;
+        }
+
+       
 
         // Calculate movement direction
         Vector3 movement = new Vector3(moveX, moveY, 0f).normalized;
@@ -47,9 +68,15 @@ public class Movement : MonoBehaviour
         // Apply movement to the Rigidbody
         if (movement.magnitude >= 0.1f)
         {
-            // Move the player in the XY plane (top-down)
-            Vector3 moveDirection = movement * moveSpeed * Time.deltaTime;
-            rb.MovePosition(rb.position + moveDirection);
+            // Set the new velocity based on input
+            Vector3 velocity = movement * currentSpeed * Time.deltaTime;
+            rb.velocity = new Vector3(velocity.x, velocity.y, rb.velocity.z);
+            Debug.Log(velocity.sqrMagnitude);
+        }
+        else
+        {
+            // Reset the velocity when no input is given
+            rb.velocity = new Vector3(0f, 0f, rb.velocity.z); // Only keep the z-axis velocity, if needed
         }
     }
 
