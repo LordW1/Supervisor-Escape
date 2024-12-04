@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using TMPro;
 
@@ -34,6 +33,18 @@ public class GameManager : MonoBehaviour
     {
         inactivatedCirclesText.text = $"You Win";
         Debug.Log("You win!");
+
+        // Destroy the Timer GameObject
+        GameObject timer = GameObject.Find("Timer");
+        if (timer != null)
+        {
+            Destroy(timer);
+        }
+        else
+        {
+            Debug.LogWarning("Timer GameObject not found.");
+        }
+
         // Additional win condition logic
     }
 }
