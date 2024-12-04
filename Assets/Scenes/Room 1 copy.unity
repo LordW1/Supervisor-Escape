@@ -2093,10 +2093,10 @@ VideoPlayer:
   m_TargetAudioSources:
   - {fileID: 0}
   m_DirectAudioVolumes:
-  - 1
+  - 0
   m_Url: 
   m_EnabledAudioTracks: 01
-  m_DirectAudioMutes: 00
+  m_DirectAudioMutes: 01
   m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 1
   m_SkipOnDrop: 1
@@ -4202,6 +4202,7 @@ GameObject:
   - component: {fileID: 685979094}
   - component: {fileID: 685979093}
   - component: {fileID: 685979098}
+  - component: {fileID: 685979099}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -4352,8 +4353,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentSpeed: 0
-  moveSpeed: 1000
-  sprintSpeed: 2000
+  moveSpeed: 8
+  sprintSpeed: 16
   rotationSpeed: 10
   moveX: 0
   moveY: 0
@@ -4381,6 +4382,28 @@ CapsuleCollider:
   m_Height: 0.99318314
   m_Direction: 1
   m_Center: {x: 0.014314055, y: 0.047124267, z: -0.32059383}
+--- !u!95 &685979099
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685979091}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 46633cfc5f1d6c44bbefdd50441a1d75, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &691197773
 PrefabInstance:
   m_ObjectHideFlags: 0

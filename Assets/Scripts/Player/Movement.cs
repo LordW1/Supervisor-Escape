@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -12,16 +11,17 @@ public class Movement : MonoBehaviour
 
     public float currentSpeed;
     [Range(0, 1000)]
-    public float moveSpeed = 1000f;
+    public float moveSpeed;
     [Range(0, 2000)]
-    public float sprintSpeed = 2000f;
-    public float rotationSpeed = 700f;
+    public float sprintSpeed;
+    public float rotationSpeed;
     public float moveX;
     public float moveY;
     public bool isSprinting;
 
     private Rigidbody rb;
     private Camera mainCamera;
+    private Animator anim;
 
     // Store the target rotation angle
     private float targetAngle = 0f; // Default target angle is 0 (facing up)
@@ -32,9 +32,12 @@ public class Movement : MonoBehaviour
         rb.freezeRotation = true;  // Prevent Rigidbody from rotating automatically (we will handle rotation manually)
         audioSearch = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         mainCamera = Camera.main;
+        anim = GetComponent<Animator>();
     }
 
     [System.Obsolete]
+
+
     void Update()
     {
         MovePlayer();
@@ -49,7 +52,7 @@ public class Movement : MonoBehaviour
         moveX = Input.GetAxis("Horizontal");
         moveY = Input.GetAxis("Vertical");
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetButton("R2"))
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetButton("R2"))
         {
             currentSpeed = sprintSpeed;
             isSprinting = true;
@@ -60,23 +63,25 @@ public class Movement : MonoBehaviour
             isSprinting = false;
         }
 
-       
-
         // Calculate movement direction
-        Vector3 movement = new Vector3(moveX, moveY, 0f).normalized;
+        Vector3 targetMovement = new Vector3(moveX, moveY, 0f).normalized;
 
-        // Apply movement to the Rigidbody
-        if (movement.magnitude >= 0.1f)
+        // Apply smooth movement to the Rigidbody
+        if (targetMovement.magnitude >= 0.1f)
         {
-            // Set the new velocity based on input
-            Vector3 velocity = movement * currentSpeed * Time.deltaTime;
-            rb.velocity = new Vector3(velocity.x, velocity.y, rb.velocity.z);
-            Debug.Log(velocity.sqrMagnitude);
+            // Smoothly interpolate the current velocity to the target direction and speed
+            Vector3 desiredVelocity = targetMovement * currentSpeed;
+            rb.velocity = Vector3.Lerp(rb.velocity, desiredVelocity, 0.15f); // 0.1f is the smoothing factor
+
+            // Set the animation speed based on movement velocity magnitude
+            float velocityMagnitude = rb.velocity.magnitude;
+            anim.SetFloat("Velocity", velocityMagnitude);
         }
         else
         {
-            // Reset the velocity when no input is given
-            rb.velocity = new Vector3(0f, 0f, rb.velocity.z); // Only keep the z-axis velocity, if needed
+            // Reset the velocity when no input is given, keep the z-axis velocity (if needed)
+            rb.velocity = new Vector3(0f, 0f, rb.velocity.z);
+            anim.SetFloat("Velocity", 0);
         }
     }
 
@@ -131,3 +136,4 @@ public class Movement : MonoBehaviour
         }
     }
 }
+
