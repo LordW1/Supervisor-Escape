@@ -974,19 +974,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d9935e9c221d745a2d6d88c9d27583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicSource: {fileID: 489474808}
-  AmbienceSource: {fileID: 1007005467}
-  SoundEffectsSource: {fileID: 754001325}
-  FootStepsource: {fileID: 957958186}
-  backgroundSFX: {fileID: 0}
-  weatherSFX: {fileID: 0}
-  deathSFX: {fileID: 0}
-  wallSlideSFX: {fileID: 0}
-  jumpSFX: {fileID: 0}
-  landSFX: {fileID: 0}
-  dashSFX: {fileID: 0}
-  hitSFX: {fileID: 0}
-  startGameSFX: {fileID: 0}
 --- !u!1 &236067643
 GameObject:
   m_ObjectHideFlags: 0
@@ -1019,6 +1006,9 @@ MonoBehaviour:
   Timesup: 0
   countdown: 30
   messageText: {fileID: 1446156980}
+  GameOverScreen: {fileID: 0}
+  ItemsRemaining: {fileID: 0}
+  Timer: {fileID: 0}
 --- !u!4 &236067645
 Transform:
   m_ObjectHideFlags: 0
@@ -4937,7 +4927,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9059980163259810432, guid: 059c6220f9d95714abff6520d6c9a3f7, type: 3}
       propertyPath: m_IsTrigger
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9085345854046612275, guid: 059c6220f9d95714abff6520d6c9a3f7, type: 3}
       propertyPath: m_Layer
