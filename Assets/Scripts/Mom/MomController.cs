@@ -95,12 +95,14 @@ public class MomController : MonoBehaviour
                 // If the player is within range, chase the player
                 MoveToPlayer();
                 SetAgentSpeed(chaseSpeed);// Set agent speed to chase speed;
+                AudioManager.instance.SwitchMusic(AudioManager.instance.chaseSFX);
             }
             else
             {
                 // Otherwise, follow the path
                 yield return StartCoroutine(FollowPath());
                 SetAgentSpeed(moveSpeed);
+                AudioManager.instance.SwitchMusic(AudioManager.instance.backgroundSFX);
             }
 
             // Wait for a short time before checking again
@@ -163,6 +165,17 @@ public class MomController : MonoBehaviour
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, trackingRange);
+
+            // Visualize the current state (chasing or idle)
+            if (Vector3.Distance(transform.position, player.position) <= trackingRange)
+            {
+                Gizmos.color = Color.green;  // Chasing state
+            }
+            else
+            {
+                Gizmos.color = Color.yellow; // Idle state
+            }
+            Gizmos.DrawWireSphere(transform.position, 1f);  // Visualization of current position/state
         }
     }
 }

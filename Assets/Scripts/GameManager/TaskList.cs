@@ -6,8 +6,10 @@ public class TaskList : MonoBehaviour
     public bool isOpened;
     public GameObject notifications;
     public GameObject Icons;
+    public GameObject backDrop;
 
     private Animator anim;
+    private AudioManager audioSearch;
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -25,6 +27,8 @@ public class TaskList : MonoBehaviour
             isOpened = true;
             notifications.SetActive(false);
             Icons.SetActive(false);
+            backDrop.SetActive(true);
+            AudioManager.instance.ApplyLowPassFilter(true, 500f);
         }
 
         if (!isOpen && isOpened)
@@ -33,7 +37,8 @@ public class TaskList : MonoBehaviour
             isOpened = false;
             notifications.SetActive(true);
             Icons.SetActive(true);
-
+            backDrop?.SetActive(false);
+            AudioManager.instance.ApplyLowPassFilter(false);
         }
     }
 

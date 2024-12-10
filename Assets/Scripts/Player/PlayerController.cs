@@ -109,6 +109,7 @@ public class PlayerController : MonoBehaviour
         itemOutline.ToggleOutline();  // Trigger the outline toggle
         ScreenShake.instance.TriggerShake(0.25f, 0.5f);
         TriggerInteractHapticFeedback();
+        AudioManager.instance.PlaySFX(audioSearch.interactSFX);
         if (timerManager.timesUp)
         {
             StartCoroutine(StopHapticFeedbackAfterDelay());
@@ -119,6 +120,7 @@ public class PlayerController : MonoBehaviour
     private void OnTask(InputAction.CallbackContext context)
     {
         tasks.ToggleTaskList();
+        AudioManager.instance.PlaySFX(audioSearch.taskSFX);
     }
     /*
     void OnSpam(InputAction.CallbackContext context) 
