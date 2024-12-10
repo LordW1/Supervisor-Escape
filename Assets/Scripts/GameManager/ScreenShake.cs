@@ -5,7 +5,7 @@ using UnityEngine;
 public class ScreenShake : MonoBehaviour
 {
     public static ScreenShake instance;
-    public Movement player;
+    private PlayerController player;
 
     private float shakeDuration;
     private float shakeMagnitude;
@@ -22,7 +22,7 @@ public class ScreenShake : MonoBehaviour
     private void Start()
     {
         instance = this;
-        player = GetComponent<Movement>();
+        player = GetComponent<PlayerController>();
     }
 
     private void LateUpdate()
@@ -41,7 +41,7 @@ public class ScreenShake : MonoBehaviour
             shakeRotation = Mathf.MoveTowards(shakeRotation, 0, shakeFadeout * rotationMultiplier * Time.deltaTime);
         }
 
-        transform.rotation = Quaternion.Euler(0f, 0f, shakeRotation * Random.Range(-1f, 1f));
+        //transform.rotation = Quaternion.Euler(0f, 0f, shakeRotation * Random.Range(-1f, 1f));
         //transform.position = OriginalPos;
     }
     public void TriggerShake(float length, float power)

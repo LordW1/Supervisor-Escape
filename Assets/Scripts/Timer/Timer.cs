@@ -1,72 +1,82 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro; // Ensure you have TextMeshPro in your project.
+using TMPro; // Ensure TextMeshPro is in your project.
 
-public class TimerScript : MonoBehaviour
+public class TimerManager : MonoBehaviour
 {
-    public bool Timesup = false; // Boolean to track if time is up
-    public float countdown = 10f; // 10-second countdown
-    public TextMeshProUGUI messageText; // Reference to the TextMeshPro UI text
-    public GameObject GameOverScreen;
-    public GameObject ItemsRemaining;
-    public GameObject Timer;
+    // Public variables to be set in the Unity editor
+    public float countdown = 10f; // Countdown time in seconds
+    public TextMeshProUGUI messageText; // Reference to the TextMeshPro UI element
+    public GameObject gameOverScreen; // Game Over screen UI element
+   // public GameObject itemsRemainingUI; // UI element showing items remaining
+    public GameObject timerUI; // Timer UI element
+
+    // Private variables to manage internal states
+    public bool timesUp = false; // Tracks if time is up
 
     private void Start()
     {
-        // Find the TextMeshPro UI component in the scene
-        messageText = GameObject.Find("MessageText").GetComponent<TextMeshProUGUI>();
-        UpdateCountdownText(); // Initialize the countdown text
-        GameOverScreen.SetActive(false);
-        ItemsRemaining.SetActive(true);
-        Timer.SetActive(true);
+
+        // Set initial UI states
+        UpdateCountdownText();
+        gameOverScreen.SetActive(false);
+        //itemsRemainingUI.SetActive(true);
+        timerUI.SetActive(true);
     }
 
     private void Update()
     {
-        if (!Timesup)
+        /*
+        if (!timesUp)
         {
-            // Count down
+            // Count down the time
             countdown -= Time.deltaTime;
 
             if (countdown <= 0f)
             {
-                Timesup = true;
+                // Time is up, freeze the scene
+                timesUp = true;
                 countdown = 0f;
                 FreezeScene();
             }
             else
             {
-                UpdateCountdownText(); // Update the countdown display
+                // Update countdown text
+                UpdateCountdownText();
             }
         }
         else
         {
-            // Allow the player to press space to reload the scene
+            // Allow the player to reload the scene by pressing the spacebar
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 ReloadScene();
             }
         }
+        */
     }
 
-    private void UpdateCountdownText()
+
+    // Update the countdown UI text to show remaining time
+    public void UpdateCountdownText()
     {
-        // Update the text to show the remaining time rounded to the nearest whole number
         messageText.text = $"{Mathf.CeilToInt(countdown):00}";
     }
 
-    private void FreezeScene()
+    // Freeze the scene and display the Game Over screen
+    public void FreezeScene()
     {
-        Time.timeScale = 0f; // Freeze the game
-        messageText.text = ""; // Display the message
-        GameOverScreen.SetActive(true);
-        ItemsRemaining.SetActive(false);
-        Timer.SetActive(false);
+        Time.timeScale = 0f; // Pause the game time
+        messageText.text = ""; // Clear the countdown text
+        gameOverScreen.SetActive(true); // Show Game Over screen
+        //itemsRemainingUI.SetActive(false); // Hide remaining items UI
+        timerUI.SetActive(false); // Hide timer UI
     }
 
-    private void ReloadScene()
+    // Reload the scene and resume the game
+    public void ReloadScene()
     {
-        Time.timeScale = 1f; // Reset the game time scale
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload the scene
+        Time.timeScale = 1f; // Resume game time
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload the current scene
     }
 }

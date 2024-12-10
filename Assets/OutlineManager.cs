@@ -1,46 +1,52 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class OutlineManager : MonoBehaviour
 {
-    public Outline remote;  // Reference to the Outline component
-    public Outline lamp;  // Reference to the Outline component
-    public Outline trash;  // Reference to the Outline component
-    public Outline money;  // Reference to the Outline component
-    public Outline firePlace;
-    public Outline sharpFurniture;
+    public Outline[] outlines;  // Array of Outline components
     private bool isFadedOut = true;  // Track if the outline is currently faded out (initially true)
+    public Color fadeInColor = new Color(1f, 1f, 1f, 1f);  // Full white color (solid)
+    public Color fadeOutColor = new Color(1f, 1f, 1f, 0f);  // Fully transparent color
 
     void Start()
     {
-        // Start with a basic solid white outline, no fade
-        remote.AnimateOutline(5f, new Color(1f, 1f, 1f, 0f), 0.1f);  // Start with transparent white and fade in
-        lamp.AnimateOutline(5f, new Color(1f, 1f, 1f, 0f), 0.1f);  // Start with transparent white and fade in
+        // Start with a basic solid white outline, no fade for all outlines
+        foreach (Outline outline in outlines)
+        {
+            outline.AnimateOutline(6f, fadeOutColor, 0.1f);  // Start with transparent outline
+        }
     }
 
     void Update()
     {
-        // Toggle fade in and out on spacebar press
-        if (Input.GetKeyDown(KeyCode.Space))
+
+    }
+
+    // Public method to toggle the outline fade
+    public void ToggleOutline()
+    {
+        if (isFadedOut)
         {
-            if (isFadedOut)
-            {
-                // Fade in (alpha = 1, visible white)
-                remote.AnimateOutline(5f, new Color(1f, 1f, 1f, 1f), 0.1f);
-                // Fade in (alpha = 1, visible white)
-                lamp.AnimateOutline(5f, new Color(1f, 1f, 1f, 1f), 0.1f);
-            }
-            else
-            {
-                // Fade out (alpha = 0, transparent white)
-                remote.AnimateOutline(5f, new Color(1f, 1f, 1f, 0f), 0.1f);
+            // Fade in all outlines (alpha = 1, visible white)
+            SetOutlineColor(fadeInColor);
+        }
+        else
+        {
+            // Fade out all outlines (alpha = 0, transparent white)
+            SetOutlineColor(fadeOutColor);
+        }
 
-                // Fade out (alpha = 0, transparent white)
-                lamp.AnimateOutline(5f, new Color(1f, 1f, 1f, 0f), 0.1f);
-            }
+        // Toggle the faded state
+        isFadedOut = !isFadedOut;
 
-            ScreenShake.instance.TriggerShake(0.2f, 0.4f);
-            // Toggle the faded state
-            isFadedOut = !isFadedOut;
+    }
+
+    // Helper method to set the color for all outlines
+    private void SetOutlineColor(Color targetColor)
+    {
+        foreach (Outline outline in outlines)
+        {
+            outline.AnimateOutline(6f, targetColor, 0.1f);
         }
     }
 }

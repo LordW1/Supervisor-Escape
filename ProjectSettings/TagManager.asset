@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Audio
   - Circle
+  - Interact
+  - interact
   layers:
   - Default
   - TransparentFX

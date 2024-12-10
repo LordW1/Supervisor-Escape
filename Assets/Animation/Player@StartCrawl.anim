@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Player@Crawl
+  m_Name: Player@StartCrawl
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -22,20 +22,20 @@ AnimationClip:
     curve:
     - time: 0
       value: {fileID: 2105867350, guid: a9ee4d97f7ed4884e95b9bf1a2335db3, type: 3}
-    - time: 0.083333336
-      value: {fileID: 1901526780, guid: a9ee4d97f7ed4884e95b9bf1a2335db3, type: 3}
-    - time: 0.16666667
-      value: {fileID: 1816925079, guid: a9ee4d97f7ed4884e95b9bf1a2335db3, type: 3}
-    - time: 0.25
-      value: {fileID: 713971973, guid: a9ee4d97f7ed4884e95b9bf1a2335db3, type: 3}
     - time: 0.33333334
+      value: {fileID: 1901526780, guid: a9ee4d97f7ed4884e95b9bf1a2335db3, type: 3}
+    - time: 0.6666667
+      value: {fileID: 1816925079, guid: a9ee4d97f7ed4884e95b9bf1a2335db3, type: 3}
+    - time: 1
+      value: {fileID: 713971973, guid: a9ee4d97f7ed4884e95b9bf1a2335db3, type: 3}
+    - time: 1.3333334
       value: {fileID: 1999333921, guid: a9ee4d97f7ed4884e95b9bf1a2335db3, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
     flags: 2
-  m_SampleRate: 24
+  m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -62,7 +62,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.375
+    m_StopTime: 1.35
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
