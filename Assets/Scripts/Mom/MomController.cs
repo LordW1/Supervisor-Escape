@@ -51,6 +51,8 @@ public class MomController : MonoBehaviour
 
         // Freeze rotation to keep the mom's orientation fixed
         agent.updateRotation = false;
+        agent.updatePosition = true;
+        agent.autoRepath = true;
 
         transform.position = targetNode.transform.position;
 
@@ -85,28 +87,35 @@ public class MomController : MonoBehaviour
             agent.speed = speed;
         }
     }
+
     private IEnumerator BehaviorRoutine()
     {
+        float nextCheckTime = 0f;
+        float checkInterval = 0.2f; // Check every 0.2 seconds for efficiency
+
         while (true)
         {
-            // Check if the player is within the tracking range
-            if (Vector3.Distance(transform.position, player.position) <= trackingRange)
+            if (Time.time >= nextCheckTime)
             {
-                // If the player is within range, chase the player
-                MoveToPlayer();
-                SetAgentSpeed(chaseSpeed);// Set agent speed to chase speed;
-                AudioManager.instance.SwitchMusic(AudioManager.instance.chaseSFX);
-            }
-            else
-            {
-                // Otherwise, follow the path
-                yield return StartCoroutine(FollowPath());
-                SetAgentSpeed(moveSpeed);
-                AudioManager.instance.SwitchMusic(AudioManager.instance.backgroundSFX);
-            }
+                nextCheckTime = Time.time + checkInterval;
 
-            // Wait for a short time before checking again
-            yield return null;
+                if (Vector3.Distance(transform.position, player.position) <= trackingRange)
+                {
+                    // If the player is within range, chase the player
+                    MoveToPlayer();
+                    SetAgentSpeed(chaseSpeed);
+                    AudioManager.instance.SwitchMusic(AudioManager.instance.chaseSFX);
+                }
+                else
+                {
+                    AudioManager.instance.SwitchMusic(AudioManager.instance.backgroundSFX);
+                    // Otherwise, follow the path
+                    yield return StartCoroutine(FollowPath());
+                    SetAgentSpeed(moveSpeed);
+                    
+                }
+            }
+            yield return null;  // Wait one frame before checking again
         }
     }
 
@@ -115,6 +124,7 @@ public class MomController : MonoBehaviour
         if (agent != null)
         {
             agent.SetDestination(player.position);
+            agent.isStopped = false;
         }
     }
 

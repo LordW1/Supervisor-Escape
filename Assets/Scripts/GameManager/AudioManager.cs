@@ -51,9 +51,36 @@ public class AudioManager : MonoBehaviour
     {
         if (musicSource != null && musicSource.clip != newClip)
         {
-            musicSource.clip = newClip;
-            musicSource.Play();
+            StartCoroutine(FadeOutAndSwitch(newClip));
         }
+    }
+
+    private IEnumerator FadeOutAndSwitch(AudioClip newClip)
+    {
+        // Fade out current track
+        float fadeDuration = 1f;  // Set your fade duration
+        float startVolume = 0.7f;
+
+        // Fade out
+        for (float t = 0; t < fadeDuration; t += Time.deltaTime)
+        {
+            musicSource.volume = Mathf.Lerp(startVolume, 0, t / fadeDuration);
+            yield return null;
+        }
+        musicSource.volume = 0;
+        musicSource.Stop();  // Stop the current music
+
+        // Switch to new track
+        musicSource.clip = newClip;
+        musicSource.Play();
+
+        // Fade in new track
+        for (float t = 0; t < fadeDuration; t += Time.deltaTime)
+        {
+            musicSource.volume = Mathf.Lerp(0, startVolume, t / fadeDuration);
+            yield return null;
+        }
+        musicSource.volume = startVolume;  // Reset to original volume
     }
     // Function to apply or remove low-pass filter effect
     public void ApplyLowPassFilter(bool applyFilter, float cutoffFrequency = 500f)
