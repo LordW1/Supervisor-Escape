@@ -9,11 +9,18 @@ public class Circle : MonoBehaviour
     public float decreaseRate = 10f; // Rate at which Count decreases
     public Slider energyBar; // UI Slider for tracking Count
     public Vector3 newSize = new Vector3(1, 1, 1);
+    public GameObject UIbar;
+
+    private AudioManager audioSearch;
+    private GameManager itemManager;
 
     private void Start()
     {
         energyBar.maxValue = maxCount;
         energyBar.value = Count;
+
+        audioSearch = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        itemManager = FindAnyObjectByType<GameManager>();  
     }
 
     private void Update()
@@ -26,20 +33,20 @@ public class Circle : MonoBehaviour
             // Check if Count reaches or exceeds maxCount and activate the Circle
              if (Count >= 99)
             {
-                transform.localScale = newSize;
+                //transform.localScale = newSize;
+                gameObject.SetActive(false);
+                UIbar.SetActive(false);
                 Activation = true;
                 Debug.Log("Activated");
-                FindObjectOfType<GameManager>().UpdateActivationCount();
+                itemManager.UpdateActivationCount();
             }
+            
         }
 
-       /*if (Count >= 99)
-            {
-                transform.localScale = newSize;
-                Activation = true;
-                Debug.Log("Activated");
-                FindObjectOfType<GameManager>().UpdateActivationCount();
-            }*/
+        if (Count >= maxCount)
+        {
+            Activation = false;
+        }
     }
 
     public void IncreaseCount()

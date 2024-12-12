@@ -17,10 +17,12 @@ public class MomController : MonoBehaviour
     private Rigidbody rb;
     private NavMeshAgent agent;
     private IEnumerator behaviorRoutine;
+    private SlowMotion slowMo;
 
     private void Start()
     {
         Rigidbody rb = GetComponent<Rigidbody>();
+        slowMo = FindAnyObjectByType<SlowMotion>();
         if (rb != null)
         {
             rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
@@ -155,10 +157,19 @@ public class MomController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("BABY CAUGHT!");
+
+            slowMo.StartSlowMotion();
+
         }
-        else
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
         {
-            Debug.Log($"Collided with {other.gameObject.name}");
+
+            slowMo.StopSlowMotion();
+
         }
     }
 

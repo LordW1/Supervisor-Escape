@@ -71,6 +71,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Restart"",
+                    ""type"": ""Button"",
+                    ""id"": ""6fb9d42a-7fa1-4b42-9a62-58cab76991cf"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -208,7 +217,29 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""4e654ea8-9a6d-41bc-a167-18794426e26a"",
+                    ""id"": ""77920c24-7839-481d-b4de-2da64936ae47"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Spam"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""69900e15-9337-40da-99ba-d3ac1b75e9e3"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Spam"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""265365c7-272a-4820-9594-a2350680afcc"",
                     ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -219,12 +250,23 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""00555ba9-03f4-4ed4-9c76-71ef1dc4b4f8"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""id"": ""17db29cb-bb0a-4824-be30-edc5db74d13e"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Spam"",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""29fddbb9-861b-4d31-9528-05a1afcd0356"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -240,6 +282,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Tasks = m_Player.FindAction("Tasks", throwIfNotFound: true);
         m_Player_Spam = m_Player.FindAction("Spam", throwIfNotFound: true);
+        m_Player_Restart = m_Player.FindAction("Restart", throwIfNotFound: true);
     }
 
     ~@PlayerInputs()
@@ -311,6 +354,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Tasks;
     private readonly InputAction m_Player_Spam;
+    private readonly InputAction m_Player_Restart;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -320,6 +364,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Tasks => m_Wrapper.m_Player_Tasks;
         public InputAction @Spam => m_Wrapper.m_Player_Spam;
+        public InputAction @Restart => m_Wrapper.m_Player_Restart;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -344,6 +389,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Spam.started += instance.OnSpam;
             @Spam.performed += instance.OnSpam;
             @Spam.canceled += instance.OnSpam;
+            @Restart.started += instance.OnRestart;
+            @Restart.performed += instance.OnRestart;
+            @Restart.canceled += instance.OnRestart;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -363,6 +411,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Spam.started -= instance.OnSpam;
             @Spam.performed -= instance.OnSpam;
             @Spam.canceled -= instance.OnSpam;
+            @Restart.started -= instance.OnRestart;
+            @Restart.performed -= instance.OnRestart;
+            @Restart.canceled -= instance.OnRestart;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -387,5 +438,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnTasks(InputAction.CallbackContext context);
         void OnSpam(InputAction.CallbackContext context);
+        void OnRestart(InputAction.CallbackContext context);
     }
 }

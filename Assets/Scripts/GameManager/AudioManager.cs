@@ -16,11 +16,11 @@ public class AudioManager : MonoBehaviour
     public AudioClip backgroundSFX;
     public AudioClip chaseSFX;
     public AudioClip weatherSFX;
-    public AudioClip deathSFX;
+    public AudioClip winSFX;
     public AudioClip interactSFX;
     public AudioClip taskSFX;
-    public AudioClip landSFX;
-    public AudioClip dashSFX;
+    public AudioClip breakSFX;
+    public AudioClip gameOverSFX;
     public AudioClip hitSFX;
     public AudioClip startGameSFX;
 
@@ -46,6 +46,11 @@ public class AudioManager : MonoBehaviour
     public void PlaySFX(AudioClip clip)
     {
         SoundEffectsSource.PlayOneShot(clip);
+    }
+
+    public void PauseMusic()
+    {
+        musicSource.Stop();
     }
     public void SwitchMusic(AudioClip newClip)
     {

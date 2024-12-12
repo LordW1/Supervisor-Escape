@@ -3,37 +3,44 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public TextMeshProUGUI inactivatedCirclesText; // TextMeshPro component
-    public int totalCircles = 2;
-    private int activatedCircles = 0;
+    //public TextMeshProUGUI inactivatedCirclesText; // TextMeshPro component
+    public int totalCircles = 6;
+    public int activatedCircles = 0;
+
+    public GameObject winScreen;
+    public GameObject otherRemainingUI;
+
+    private AudioManager audioSearch;
 
     private void Start()
     {
-        UpdateInactivatedCircles();
+        winScreen.SetActive(false);
+        audioSearch = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
-    public void UpdateActivationCount()
+    private void Update()
     {
-        activatedCircles++;
-        UpdateInactivatedCircles();
-
         if (activatedCircles == totalCircles)
         {
             WinGame();
+
         }
     }
-
-    private void UpdateInactivatedCircles()
+    public void UpdateActivationCount()
     {
-        int inactivatedCircles = totalCircles - activatedCircles;
-        inactivatedCirclesText.text = $"Items Remained: {inactivatedCircles}";
+        activatedCircles++;
+        
     }
 
-    private void WinGame()
-    {
-        inactivatedCirclesText.text = $"You Win";
-        Debug.Log("You win!");
 
+    
+
+    public void WinGame()
+    {
+        winScreen.SetActive(true);
+        otherRemainingUI.SetActive(false);
+        Debug.Log("You win!");
+        /*
         // Destroy the Timer GameObject
         GameObject timer = GameObject.Find("Timer");
         if (timer != null)
@@ -44,6 +51,10 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning("Timer GameObject not found.");
         }
+        */
+        Time.timeScale = 0f;
+        AudioManager.instance.PauseMusic();
+        AudioManager.instance.PlaySFX(audioSearch.winSFX);
 
         // Additional win condition logic
     }

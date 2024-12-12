@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private TimerManager timerManager;
     public TaskList tasks;
     private CameraFollow cameraFollow;
+    private Interaction interact;
     //private QuickTimeEvent QTE;
 
     [Header("MOVEMENT VALUES")]
@@ -36,18 +37,24 @@ public class PlayerController : MonoBehaviour
     private float targetAngle = 0f;
 
     // Input Action variables
-    private PlayerInputs inputActions;  // Reference to input actions
+    private PlayerInputs inputActions;
+    private InputAction spamAction;// Reference to input actions
     private Vector2 moveInput;
     public bool isSprinting;
     private bool isInteracting;
 
+
+
     void Awake()
     {
-        inputActions = new PlayerInputs();  // Assuming you have created PlayerInputActions
+        inputActions = new PlayerInputs();
+        spamAction = inputActions.Player.Spam;
+        // Assuming you have created PlayerInputActions
         inputActions.Enable();
         // Subscribe to the interaction event
         inputActions.Player.Interact.performed += OnInteract; // Detect when the button is pressed
         inputActions.Player.Tasks.performed += OnTask;
+        inputActions.Player.Restart.performed += OnRestart;
         //inputActions.Player.Tasks.performed += OnSpam;
     }
 
@@ -73,6 +80,7 @@ public class PlayerController : MonoBehaviour
         mainCamera = Camera.main;
         cameraFollow = GetComponent<CameraFollow>();
         anim = GetComponent<Animator>();
+        interact = GetComponent<Interaction>();
     }
 
     void Update()
@@ -101,8 +109,23 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-    }
+        if (spamAction.triggered && interact.currentCircle != null)
+        {
+            interact.TriggerBar();
+            ScreenShake.instance.TriggerShake(0.2f, 0.3f);
+            TriggerInteractHapticFeedback();
+            AudioManager.instance.PlaySFX(audioSearch.breakSFX);
+        }
 
+    }
+    private void OnRestart(InputAction.CallbackContext context)
+    {
+        if (timerManager.timesUp)
+        {
+            StartCoroutine(StopHapticFeedbackAfterDelay());
+            timerManager.ReloadScene();
+        }
+    }
     private void OnInteract(InputAction.CallbackContext context)
     {
         // Called when the "Interact" action is performed (button press)
@@ -110,11 +133,7 @@ public class PlayerController : MonoBehaviour
         ScreenShake.instance.TriggerShake(0.25f, 0.5f);
         TriggerInteractHapticFeedback();
         AudioManager.instance.PlaySFX(audioSearch.interactSFX);
-        if (timerManager.timesUp)
-        {
-            StartCoroutine(StopHapticFeedbackAfterDelay());
-            timerManager.ReloadScene();
-        }
+       
     }
 
     private void OnTask(InputAction.CallbackContext context)
@@ -122,12 +141,8 @@ public class PlayerController : MonoBehaviour
         tasks.ToggleTaskList();
         AudioManager.instance.PlaySFX(audioSearch.taskSFX);
     }
-    /*
-    void OnSpam(InputAction.CallbackContext context) 
-    {
-        QTE.StartQTE("SPAM!");
-    }
-    */
+    
+   
     private void MovePlayer()
     {
         // Determine target speed based on sprinting state

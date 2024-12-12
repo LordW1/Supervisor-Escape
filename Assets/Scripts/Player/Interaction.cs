@@ -2,13 +2,16 @@ using UnityEngine;
 
 public class Interaction : MonoBehaviour
 {
-    private Circle currentCircle;
+    public Circle currentCircle;
+  
+   
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Circle"))
         {
             currentCircle = other.GetComponent<Circle>();
+            
         }
     }
 
@@ -17,6 +20,7 @@ public class Interaction : MonoBehaviour
         if (other.CompareTag("Circle"))
         {
             currentCircle = other.GetComponent<Circle>();
+            currentCircle.UIbar.SetActive(true);
         }
     }
 
@@ -25,14 +29,23 @@ public class Interaction : MonoBehaviour
         if (other.CompareTag("Circle"))
         {
             currentCircle = null;
+            currentCircle.UIbar.SetActive(false);
         }
     }
-
+    /*
     private void Update()
     {
+
         if (currentCircle != null && Input.GetKeyDown(KeyCode.Space))
         {
             currentCircle.IncreaseCount();
         }
+
+    }
+    */
+
+    public void TriggerBar()
+    {
+        currentCircle.IncreaseCount();
     }
 }

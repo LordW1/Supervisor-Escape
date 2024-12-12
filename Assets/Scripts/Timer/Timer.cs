@@ -10,6 +10,7 @@ public class TimerManager : MonoBehaviour
     public GameObject gameOverScreen; // Game Over screen UI element
    // public GameObject itemsRemainingUI; // UI element showing items remaining
     public GameObject timerUI; // Timer UI element
+    private AudioManager audioSearch;
 
     // Private variables to manage internal states
     public bool timesUp = false; // Tracks if time is up
@@ -22,6 +23,9 @@ public class TimerManager : MonoBehaviour
         gameOverScreen.SetActive(false);
         //itemsRemainingUI.SetActive(true);
         timerUI.SetActive(true);
+
+
+        audioSearch = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     private void Update()
@@ -71,6 +75,9 @@ public class TimerManager : MonoBehaviour
         gameOverScreen.SetActive(true); // Show Game Over screen
         //itemsRemainingUI.SetActive(false); // Hide remaining items UI
         timerUI.SetActive(false); // Hide timer UI
+
+        AudioManager.instance.PauseMusic();
+        AudioManager.instance.PlaySFX(audioSearch.gameOverSFX);
     }
 
     // Reload the scene and resume the game
