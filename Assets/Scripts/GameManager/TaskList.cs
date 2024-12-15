@@ -14,8 +14,12 @@ public class TaskList : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         isOpened = false;
-        //notifications.SetActive(true);
-        //Icons.SetActive(true);
+        audioSearch = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        if (audioSearch == null)
+        {
+            Debug.LogError("AudioManager not found. Please make sure the AudioManager is tagged with 'Audio'.");
+        }
+  
     }
 
     // Update is called once per frame
@@ -28,7 +32,7 @@ public class TaskList : MonoBehaviour
             notifications.SetActive(false);
             Icons.SetActive(false);
             backDrop.SetActive(true);
-            AudioManager.instance.ApplyLowPassFilter(true, 500f);
+            audioSearch.ApplyLowPassFilter(true, 500f);
         }
 
         if (!isOpen && isOpened)
@@ -38,7 +42,7 @@ public class TaskList : MonoBehaviour
             notifications.SetActive(true);
             Icons.SetActive(true);
             backDrop?.SetActive(false);
-            AudioManager.instance.ApplyLowPassFilter(false);
+            audioSearch.ApplyLowPassFilter(false);
         }
     }
 

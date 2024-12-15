@@ -138,6 +138,12 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(StopHapticFeedbackAfterDelay());
             timerManager.ReloadScene();
         }
+
+        if (gameManager.won)
+        {
+            StartCoroutine(StopHapticFeedbackAfterDelay());
+            timerManager.ReloadScene();
+        }
     }
     private void OnInteract(InputAction.CallbackContext context)
     {

@@ -3,7 +3,6 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    //public TextMeshProUGUI inactivatedCirclesText; // TextMeshPro component
     public int totalCircles = 6;
     public int activatedCircles = 0;
 
@@ -13,28 +12,39 @@ public class GameManager : MonoBehaviour
     private AudioManager audioSearch;
     public bool won;
 
+ 
+    // public TextMeshProUGUI inactivatedCirclesText; 
+
     private void Start()
     {
         winScreen.SetActive(false);
         audioSearch = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
+        // Initialize inactivatedCirclesText if used
+        // UpdateInactivatedCirclesText();
     }
 
     private void Update()
     {
-        if (activatedCircles == totalCircles)
+        if (activatedCircles == totalCircles && !won)
         {
             WinGame();
-
         }
+
+
+        // UpdateInactivatedCirclesText();
     }
+
     public void UpdateActivationCount()
     {
-        activatedCircles++;
-        
+
+        if (activatedCircles < totalCircles)
+        {
+            activatedCircles++;
+            
+            // UpdateInactivatedCirclesText();
+        }
     }
-
-
-    
 
     public void WinGame()
     {
@@ -42,22 +52,15 @@ public class GameManager : MonoBehaviour
         winScreen.SetActive(true);
         otherRemainingUI.SetActive(false);
         Debug.Log("You win!");
-        /*
-        // Destroy the Timer GameObject
-        GameObject timer = GameObject.Find("Timer");
-        if (timer != null)
-        {
-            Destroy(timer);
-        }
-        else
-        {
-            Debug.LogWarning("Timer GameObject not found.");
-        }
-        */
         Time.timeScale = 0f;
-        AudioManager.instance.PauseMusic();
-        AudioManager.instance.PlaySFX(audioSearch.winSFX);
-
-        // Additional win condition logic
+        audioSearch.PauseMusic();  // Replaced AudioManager.instance with audioSearch
+        audioSearch.PlaySFX(audioSearch.winSFX);
     }
+
+    // Uncomment if you want to display the number of inactivated circles
+    // private void UpdateInactivatedCirclesText()
+    // {
+    //     inactivatedCirclesText.text = "Remaining Circles: " + (totalCircles - activatedCircles);
+    // }
 }
+
