@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject otherRemainingUI;
 
     private AudioManager audioSearch;
+    public bool won;
 
     private void Start()
     {
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
 
     public void WinGame()
     {
+        won = true;
         winScreen.SetActive(true);
         otherRemainingUI.SetActive(false);
         Debug.Log("You win!");

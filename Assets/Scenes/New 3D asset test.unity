@@ -10853,7 +10853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.03529412}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -12775,7 +12775,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -80, y: 0}
+  m_AnchoredPosition: {x: -110.3, y: 0.8}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1395931875
@@ -13604,7 +13604,7 @@ MonoBehaviour:
   Activation: 0
   Count: 0
   maxCount: 100
-  decreaseRate: 10
+  decreaseRate: 16
   energyBar: {fileID: 449474371}
   newSize: {x: 1, y: 1, z: 1}
   UIbar: {fileID: 449474369}
@@ -13807,7 +13807,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 13, y: 0}
+  m_AnchoredPosition: {x: -1.3, y: 4.8}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1456392382
@@ -13857,8 +13857,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 19
-  m_fontSizeBase: 19
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -15635,7 +15635,6 @@ MonoBehaviour:
   - {fileID: 59341790}
   - {fileID: 255454515}
   - {fileID: 1356810297}
-  - {fileID: 1744389157}
   fadeInColor: {r: 0.9882353, g: 1, b: 0.7372549, a: 1}
   fadeOutColor: {r: 1, g: 1, b: 1, a: 0}
 --- !u!1001 &1591571373
@@ -19837,7 +19836,7 @@ MonoBehaviour:
   Activation: 0
   Count: 0
   maxCount: 100
-  decreaseRate: 30
+  decreaseRate: 21
   energyBar: {fileID: 1399121440}
   newSize: {x: 1, y: 1, z: 1}
   UIbar: {fileID: 1399121439}
@@ -20495,7 +20494,7 @@ MonoBehaviour:
   Activation: 0
   Count: 0
   maxCount: 100
-  decreaseRate: 25
+  decreaseRate: 23
   energyBar: {fileID: 691047680}
   newSize: {x: 1, y: 1, z: 1}
   UIbar: {fileID: 691047678}
@@ -20899,7 +20898,7 @@ MonoBehaviour:
   backgroundSFX: {fileID: 8300000, guid: d3443a62fdd3d9d46bc656327f66777b, type: 3}
   chaseSFX: {fileID: 8300000, guid: d41c51ef173ba6042b65fb6c933436a2, type: 3}
   weatherSFX: {fileID: 0}
-  winSFX: {fileID: 8300000, guid: c1a23f7d514520d48baad8a41c7b1a85, type: 3}
+  winSFX: {fileID: 0}
   interactSFX: {fileID: 8300000, guid: 4857d1995b145aa4c98b08f03c16d5ca, type: 3}
   taskSFX: {fileID: 8300000, guid: 8bfa393eae1336b42b3d6e5819286b06, type: 3}
   breakSFX: {fileID: 8300000, guid: f20b3cf8484215c4e963ce0b950e6d30, type: 3}
@@ -21307,7 +21306,7 @@ MonoBehaviour:
   Activation: 0
   Count: 0
   maxCount: 100
-  decreaseRate: 30
+  decreaseRate: 19
   energyBar: {fileID: 40782971}
   newSize: {x: 1, y: 1, z: 1}
   UIbar: {fileID: 40782969}

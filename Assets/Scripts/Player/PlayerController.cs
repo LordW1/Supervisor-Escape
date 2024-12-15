@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public TaskList tasks;
     private CameraFollow cameraFollow;
     private Interaction interact;
+    private GameManager gameManager;
     //private QuickTimeEvent QTE;
 
     [Header("MOVEMENT VALUES")]
@@ -39,6 +40,7 @@ public class PlayerController : MonoBehaviour
     // Input Action variables
     private PlayerInputs inputActions;
     private InputAction spamAction;// Reference to input actions
+    private InputAction restartAction;
     private Vector2 moveInput;
     public bool isSprinting;
     private bool isInteracting;
@@ -49,6 +51,7 @@ public class PlayerController : MonoBehaviour
     {
         inputActions = new PlayerInputs();
         spamAction = inputActions.Player.Spam;
+        restartAction = inputActions.Player.Restart;
         // Assuming you have created PlayerInputActions
         inputActions.Enable();
         // Subscribe to the interaction event
@@ -81,6 +84,7 @@ public class PlayerController : MonoBehaviour
         cameraFollow = GetComponent<CameraFollow>();
         anim = GetComponent<Animator>();
         interact = GetComponent<Interaction>();
+        gameManager = FindAnyObjectByType<GameManager>();
     }
 
     void Update()
@@ -92,7 +96,16 @@ public class PlayerController : MonoBehaviour
 
         MovePlayer();
         RotatePlayerToMovementDirection();
-
+        /*
+        // GAME RESTART
+        if (gameManager.won)
+        {
+           if (restartAction.triggered)
+            {
+                timerManager.ReloadScene();
+            }
+        }
+        */
 
         if (!timerManager.timesUp)
         {
